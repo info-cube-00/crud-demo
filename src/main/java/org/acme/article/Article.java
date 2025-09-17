@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OptimisticLockException;
 import jakarta.persistence.Version;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,4 +26,10 @@ public class Article {
     private String name;
 
     private String description;
+
+    public void setVersion(long version) {
+        if (this.version != version) {
+            throw new OptimisticLockException(this);
+        }
+    }
 }
